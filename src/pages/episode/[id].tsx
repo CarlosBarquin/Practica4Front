@@ -6,7 +6,7 @@ import Episode from "@/components/Episode";
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const {id}  = context.query
-
+    
     return {    
         props: {
             id

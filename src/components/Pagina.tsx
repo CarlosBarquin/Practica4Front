@@ -52,31 +52,31 @@ const Pagina = () => {
     setFiltro(e.target.value);
   };
 
-
-
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>no data</div>;
 
   return (
-    <div>
-      <input
+    <Container>
+      <Input
         type="text"
         placeholder="buscar por nombre"
         value={filtro}
         onChange={FiltroTruco}
       />
 
-      <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+      <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
         Previous
-      </button>
+      </Button>
 
-      <button
+      <Button
         onClick={() => setPage(page + 1)}
         disabled={page === data?.characters.info.pages}
       >
         Next
-      </button>
+      </Button>
+
+      <br></br>
+      <br></br>
 
       <StyledContent>
         {data?.characters.results
@@ -86,18 +86,50 @@ const Pagina = () => {
           .map((character) => {
             const index = character.id;
             return (
-              <div key={index}>
-                <Link href={`/character/${index}`}>{character.name}</Link>
-                <br />
-                <img src={character.image} width="200" height="200" />
-              </div>
+              <Card key={index}>
+                <Link href={`/character/${index}`}>
+                  <Image src={character.image} alt={character.name} />
+                </Link>
+                <Name>
+                  <Link href={`/character/${index}`}>{character.name}</Link>
+                </Name>
+              </Card>
             );
           })}
       </StyledContent>
-    </div>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+`;
+
+const Input = styled.input`
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  font size: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  cursor: pointer;
+  margin-right: 1rem;
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
 
 const StyledContent = styled.div`
   display: grid;
@@ -105,4 +137,32 @@ const StyledContent = styled.div`
   grid-gap: 1rem;
 `;
 
-export default Pagina
+const Card = styled.div`
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem 0.5rem 0 0;
+`;
+
+const Name = styled.div`
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+`;
+
+
+export default Pagina;
